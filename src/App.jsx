@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { createClient } from "@supabase/supabase-js";
+import Tabledata from "./Components/Tabledata";
+import "./App.css";
 
 const supabase = createClient(
 	import.meta.env.VITE_URL,
@@ -7,7 +9,7 @@ const supabase = createClient(
 );
 
 function App() {
-	const [rows, setrows] = useState(null);
+	const [rows, setrows] = useState();
 
 	useEffect(() => {
 		getRows();
@@ -16,12 +18,15 @@ function App() {
 	async function getRows() {
 		const { data, error } = await supabase.from("transactions").select();
 		setrows(data);
-		console.log(data);
 		console.log(error);
 	}
-
+	if (!rows) return <div>Loading...</div>;
 	return (
-		<div>{rows === null ? <p>Loading...</p> : <div>DATA FOUND</div>}</div>
+		<div className="App">
+			<div>
+				<Tabledata data={rows} />
+			</div>
+		</div>
 	);
 }
 

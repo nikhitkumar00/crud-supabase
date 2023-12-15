@@ -2,6 +2,8 @@ import Table from "@mui/joy/Table";
 import "./Tabledata.css";
 
 export default function Tabledata({ data }) {
+	const columns = Object.keys(data[0]);
+
 	return (
 		<Table
 			className="container"
@@ -14,19 +16,17 @@ export default function Tabledata({ data }) {
 		>
 			<thead>
 				<tr>
-					<th>ID</th>
-					<th>Created At</th>
-					<th>Name of Borrower</th>
-					<th>Amount</th>
+					{columns.map((column) => (
+						<th key={column}>{column}</th>
+					))}
 				</tr>
 			</thead>
 			<tbody>
-				{data.map((row) => (
-					<tr key={row.id}>
-						<td>{row.id}</td>
-						<td>{row.created_at}</td>
-						<td>{row.name_of_borrower}</td>
-						<td>{row.amount}</td>
+				{data.map((row, index) => (
+					<tr key={index}>
+						{columns.map((column) => (
+							<td key={column}>{row[column]}</td>
+						))}
 					</tr>
 				))}
 			</tbody>
